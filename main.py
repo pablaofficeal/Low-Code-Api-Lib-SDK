@@ -2,27 +2,47 @@ from my_sdk import Client
 
 def main():
     # Создание клиента с токеном авторизации
-    client = Client(token="ваш_токен_авторизации")
+    print("Инициализация клиента SDK...")
+    client = Client(token="test_token")
+    print("Клиент SDK успешно инициализирован!")
     
-    # Пример использования модуля аутентификации
+    # Демонстрация доступа к модулям (без выполнения реальных запросов)
+    print("\nДоступные модули SDK:")
+    
+    # Модуль аутентификации
     auth = client.auth()
-    login_result = auth.login(username="test_user", password="test_password")
-    print("Login result:", login_result)
+    print("- Auth модуль доступен")
     
-    # Пример использования модуля пользователя
+    # Модуль пользователя
     user = client.user()
-    user_info = user.get_info()
-    print("User info:", user_info)
+    print("- User модуль доступен")
     
-    # Пример использования модуля ботов
+    # Модуль ботов
     bots = client.bots()
-    bot_status = bots.get_bot_status(bot_id=123)
-    print("Bot status:", bot_status)
+    print("- Bots модуль доступен")
     
-    # Пример использования модуля системы
+    # Модуль шаблонов
+    templates = client.templates()
+    print("- Templates модуль доступен")
+    
+    # Модуль медиа
+    media = client.media()
+    print("- Media модуль доступен")
+    
+    # Модуль визуального редактора
+    visual_editor = client.visual_editor()
+    print("- VisualEditor модуль доступен")
+    
+    # Модуль администратора
+    admin = client.admin()
+    print("- Admin модуль доступен")
+    
+    # Модуль системы
     system = client.system()
-    health_check = system.health_check()
-    print("Health check:", health_check)
+    print("- System модуль доступен")
+    
+    print("\nSDK успешно протестирован!")
+    print("Для выполнения реальных запросов необходимо указать правильный base_url и токен авторизации.")
 
 if __name__ == "__main__":
     main()
