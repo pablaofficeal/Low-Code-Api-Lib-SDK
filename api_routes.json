@@ -1,0 +1,177 @@
+{
+  "api_routes": {
+    "auth": {
+      "/login": {
+        "methods": ["GET", "POST"],
+        "description": "Вход в систему",
+        "auth_required": false
+      },
+      "/register": {
+        "methods": ["GET", "POST"],
+        "description": "Регистрация",
+        "auth_required": false
+      },
+      "/logout": {
+        "methods": ["GET"],
+        "description": "Выход из системы",
+        "auth_required": true
+      }
+    },
+    "user": {
+      "/api/user/info": {
+        "methods": ["GET"],
+        "description": "Информация о пользователе",
+        "auth_required": true
+      },
+      "/api/user/stats": {
+        "methods": ["GET"],
+        "description": "Статистика пользователя",
+        "auth_required": true
+      }
+    },
+    "bots": {
+      "/generate_code/<int:bot_id>": {
+        "methods": ["POST"],
+        "description": "Генерация кода бота",
+        "auth_required": true
+      },
+      "/run_bot/<int:bot_id>": {
+        "methods": ["POST"],
+        "description": "Запуск бота",
+        "auth_required": true
+      },
+      "/stop_bot/<int:bot_id>": {
+        "methods": ["POST"],
+        "description": "Остановка бота",
+        "auth_required": true
+      },
+      "/get_bot_status/<int:bot_id>": {
+        "methods": ["GET"],
+        "description": "Получение статуса бота",
+        "auth_required": true
+      },
+      "/add_command/<int:bot_id>": {
+        "methods": ["POST"],
+        "description": "Добавление команды боту",
+        "auth_required": true
+      },
+      "/add_handler/<int:bot_id>": {
+        "methods": ["POST"],
+        "description": "Добавление обработчика боту",
+        "auth_required": true
+      },
+      "/delete_command/<int:command_id>": {
+        "methods": ["POST"],
+        "description": "Удаление команды бота",
+        "auth_required": true
+      },
+      "/delete_handler/<int:handler_id>": {
+        "methods": ["POST"],
+        "description": "Удаление обработчика бота",
+        "auth_required": true
+      },
+      "/delete_bot/<int:bot_id>": {
+        "methods": ["POST"],
+        "description": "Удаление бота",
+        "auth_required": true
+      },
+      "/get_command/<int:command_id>": {
+        "methods": ["GET"],
+        "description": "Получение информации о команде",
+        "auth_required": true
+      },
+      "/edit_command/<int:command_id>": {
+        "methods": ["POST"],
+        "description": "Редактирование команды",
+        "auth_required": true
+      },
+      "/download_zip_bot/<int:bot_id>": {
+        "methods": ["GET"],
+        "description": "Скачивание бота в ZIP-архиве",
+        "auth_required": true
+      }
+    },
+    "templates": {
+      "/template/<int:template_id>/download": {
+        "methods": ["POST"],
+        "description": "Скачивание шаблона",
+        "auth_required": true
+      },
+      "/template/<int:template_id>/rate": {
+        "methods": ["POST"],
+        "description": "Оценка шаблона",
+        "auth_required": true
+      },
+      "/template/<int:template_id>/comment": {
+        "methods": ["POST"],
+        "description": "Добавление комментария к шаблону",
+        "auth_required": true
+      },
+      "/use_template/<int:template_id>": {
+        "methods": ["POST"],
+        "description": "Использование шаблона для создания бота",
+        "auth_required": true
+      },
+      "/templates/favorite/<int:template_id>": {
+        "methods": ["POST"],
+        "description": "Добавление/удаление шаблона из избранного",
+        "auth_required": true
+      }
+    },
+    "media": {
+      "/upload_media/<int:bot_id>": {
+        "methods": ["POST"],
+        "description": "Загрузка медиафайлов для бота",
+        "auth_required": true
+      }
+    },
+    "visual_editor": {
+      "/api/save-visual-bot": {
+        "methods": ["POST"],
+        "description": "Сохранение бота из визуального редактора",
+        "auth_required": true
+      },
+      "/api/generate-code": {
+        "methods": ["POST"],
+        "description": "Генерация кода из блоков",
+        "auth_required": true
+      },
+      "/api/blocks-config": {
+        "methods": ["GET"],
+        "description": "Получение конфигурации блоков",
+        "auth_required": true
+      },
+      "/api/validate-blocks": {
+        "methods": ["POST"],
+        "description": "Валидация блоков",
+        "auth_required": true
+      },
+      "/api/custom-block": {
+        "methods": ["POST"],
+        "description": "Создание пользовательского блока",
+        "auth_required": true
+      }
+    },
+    "admin": {
+      "/api/admin/stats": {
+        "methods": ["GET"],
+        "description": "Статистика для администратора",
+        "auth_required": true,
+        "admin_required": true
+      },
+      "/api/admin/comprehensive-stats": {
+        "methods": ["GET"],
+        "description": "Комплексная статистика платформы",
+        "auth_required": true,
+        "admin_required": true
+      }
+    },
+    "system": {
+      "/health": {
+        "methods": ["GET"],
+        "description": "Проверка работоспособности системы",
+        "auth_required": false
+      }
+    }
+  }
+}
