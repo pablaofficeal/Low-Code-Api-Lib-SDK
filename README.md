@@ -5,7 +5,7 @@ SDK для работы с API платформы.
 ## Установка
 
 ```bash
-pip install my_sdk
+pip install low-code-api-lib-sdk
 ```
 
 ## Использование
@@ -13,7 +13,7 @@ pip install my_sdk
 ### Инициализация клиента
 
 ```python
-from my_sdk import Client
+from low_code_api_lib_sdk import Client
 
 # Создание клиента с токеном авторизации
 client = Client(token="ваш_токен_авторизации")
