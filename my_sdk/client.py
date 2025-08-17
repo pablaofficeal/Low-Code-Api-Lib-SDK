@@ -1,9 +1,9 @@
 import requests
 
-class user:
-    def __init__(self, token):
+class Client:
+    def __init__(self, token, base_url="https://soundrush.live/api_dev"):
         self.token = token
-        self.url = "https://soundrush.live/api_dev"
+        self.base_url = base_url
         
     def _handle_json_response(self, response, method_name=""):
         """Helper method to handle JSON responses and errors consistently"""
@@ -16,22 +16,23 @@ class user:
 
 
     def get(self, endpoint):
-        response = requests.get(self.url+endpoint, headers={"Authorization": self.token})
+        response = requests.get(self.base_url+endpoint, headers={"Authorization": self.token})
         return self._handle_json_response(response, "GET")
-    def post(self, endpoint, data):
-        response = requests.post(self.url+endpoint, headers={"Authorization": self.token}, json=data)
+        
+    def post(self, endpoint, data=None):
+        response = requests.post(self.base_url+endpoint, headers={"Authorization": self.token}, json=data)
         return self._handle_json_response(response, "POST")
         
-    def put(self, endpoint, data):
-        response = requests.put(self.url+endpoint, headers={"Authorization": self.token}, json=data)
+    def put(self, endpoint, data=None):
+        response = requests.put(self.base_url+endpoint, headers={"Authorization": self.token}, json=data)
         return self._handle_json_response(response, "PUT")
         
     def delete(self, endpoint):
-        response = requests.delete(self.url+endpoint, headers={"Authorization": self.token})
+        response = requests.delete(self.base_url+endpoint, headers={"Authorization": self.token})
         return self._handle_json_response(response, "DELETE")
         
-    def patch(self, endpoint, data):
-        response = requests.patch(self.url+endpoint, headers={"Authorization": self.token}, json=data)
+    def patch(self, endpoint, data=None):
+        response = requests.patch(self.base_url+endpoint, headers={"Authorization": self.token}, json=data)
         return self._handle_json_response(response, "PATCH")
 
 
