@@ -36,12 +36,47 @@ class Client:
         return self._handle_json_response(response, "PATCH")
 
 
+    # Методы для создания экземпляров модулей API
+    def auth(self):
+        from .auth import Auth
+        return Auth(self)
+        
+    def user(self):
+        from .user import User
+        return User(self)
+        
+    def bots(self):
+        from .bots import Bots
+        return Bots(self)
+        
+    def templates(self):
+        from .templates import Templates
+        return Templates(self)
+        
+    def media(self):
+        from .media import Media
+        return Media(self)
+        
+    def visual_editor(self):
+        from .visual_editor import VisualEditor
+        return VisualEditor(self)
+        
+    def admin(self):
+        from .admin import Admin
+        return Admin(self)
+        
+    def system(self):
+        from .system import System
+        return System(self)
+
+
 if __name__ == "__main__":
-    user = user("123")
+    client = Client("123")
     # Get user data
-    get_result = user.get("/user")
+    get_result = client.get("/api/user/info")
     print("GET result:", get_result)
     
-    # Post user data
-    post_result = user.post("/user", {"name": "Pavlo"})
-    print("POST result:", post_result)
+    # Post user data using user module
+    user = client.user()
+    user_info = user.get_info()
+    print("User info:", user_info)
