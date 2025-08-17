@@ -1,0 +1,10 @@
+your_sdk/
+├─ your_sdk/
+│  ├─ __init__.py
+│  ├─ client.py        # Основной класс SDK
+│  ├─ user.py          # Методы для работы с юзерами
+│  └─ track.py         # Методы для работы с треками
+├─ tests/
+│  └─ test_user.py
+├─ setup.py
+└─ README.md
