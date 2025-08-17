@@ -4,14 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="my_sdk",
+    name="low_code_api_lib_sdk",
     version="0.1.0",
-    author="Pavlo",
-    author_email="pavlo@example.com",
-    description="SDK для работы с API",
+    author="Pavlo Gorosko",
+    author_email="pavlogorosko56@gmail.com",
+    description="SDK для работы с API Low Code Api Lib",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pavlo/my_sdk",
+    url="https://github.com/pablaofficeal/Low-Code-Api-Lib-SDK",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
