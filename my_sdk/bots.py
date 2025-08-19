@@ -1,4 +1,5 @@
 from .base import BaseModule
+from .exceptions import ValidationError, NotFoundError
 
 class Bots(BaseModule):
     """Модуль для работы с ботами"""
@@ -7,47 +8,67 @@ class Bots(BaseModule):
         """Генерация кода бота
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
             **kwargs: Дополнительные параметры
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если bot_id невалиден
+            NotFoundError: Если бот не найден
         """
-        return self.client.post(f"/generate_code/{bot_id}", kwargs)
+        self._validate_id(bot_id, "bot_id")
+        return self.client.post(f"/generate_code/{bot_id}", json=kwargs)
     
     def run_bot(self, bot_id, **kwargs):
         """Запуск бота
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
             **kwargs: Дополнительные параметры
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если bot_id невалиден
+            NotFoundError: Если бот не найден
         """
-        return self.client.post(f"/run_bot/{bot_id}", kwargs)
+        self._validate_id(bot_id, "bot_id")
+        return self.client.post(f"/run_bot/{bot_id}", json=kwargs)
     
     def stop_bot(self, bot_id, **kwargs):
         """Остановка бота
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
             **kwargs: Дополнительные параметры
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если bot_id невалиден
+            NotFoundError: Если бот не найден
         """
-        return self.client.post(f"/stop_bot/{bot_id}", kwargs)
+        self._validate_id(bot_id, "bot_id")
+        return self.client.post(f"/stop_bot/{bot_id}", json=kwargs)
     
     def get_bot_status(self, bot_id):
         """Получение статуса бота
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если bot_id невалиден
+            NotFoundError: Если бот не найден
         """
+        self._validate_id(bot_id, "bot_id")
         return self.client.get(f"/get_bot_status/{bot_id}")
     
     def add_command(self, bot_id, **kwargs):
