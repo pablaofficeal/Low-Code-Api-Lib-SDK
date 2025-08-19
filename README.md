@@ -189,6 +189,171 @@ health_check = system.health_check()
 print(health_check)
 ```
 
-## Лицензия
+## 🌐 Сетевые возможности (Новое в 0.1.1)
+
+### NetworkManager для управления соединениями
+
+```python
+from my_sdk.network import get_network_manager
+
+# Получение менеджера сети с автоматическими повторными попытками
+network_manager = get_network_manager()
+
+# Выполнение запроса с автоматическими повторами
+response = network_manager.request(
+    method='GET',
+    url='https://api.example.com/data',
+    max_retries=3,
+    timeout=30
+)
+```
+
+### NetworkSharing для обмена данными
+
+```python
+from my_sdk.network import NetworkSharing
+
+# Создание сервера для обмена данными
+sharing = NetworkSharing()
+
+# Запуск сервера
+sharing.start_server(host='localhost', port=8080)
+
+# Отправка данных клиенту
+data = {'message': 'Привет от сервера!'}
+sharing.send_data('client_id', data)
+
+# Подключение клиента
+client_sharing = NetworkSharing()
+client_sharing.connect_client('localhost', 8080)
+```
+
+## ⚠️ Обработка ошибок (Новое в 0.1.1)
+
+### Специализированные исключения
+
+```python
+from my_sdk.exceptions import (
+    SDKError, AuthenticationError, NetworkError, 
+    ValidationError, RateLimitError
+)
+
+try:
+    # Ваш код здесь
+    result = client.users.get_user(user_id=123)
+except AuthenticationError:
+    print("Проблемы с аутентификацией")
+except NetworkError:
+    print("Проблемы с сетью")
+except ValidationError as e:
+    print(f"Ошибка валидации: {e}")
+except RateLimitError:
+    print("Превышен лимит запросов")
+except SDKError as e:
+    print(f"Общая ошибка SDK: {e}")
+```
+
+### Валидация входных данных
+
+```python
+from my_sdk.exceptions import validate_token, validate_base_url
+
+# Валидация токена
+try:
+    validate_token("your_token_here")
+except ValidationError as e:
+    print(f"Неверный токен: {e}")
+
+# Валидация URL
+try:
+    validate_base_url("https://api.example.com")
+except ValidationError as e:
+    print(f"Неверный URL: {e}")
+```
+
+## 🧪 Тестирование (Новое в 0.1.1)
+
+### Запуск тестов
+
+```bash
+# Установка зависимостей для тестирования
+pip install pytest pytest-cov
+
+# Запуск всех тестов
+pytest tests/
+
+# Запуск тестов с покрытием кода
+pytest tests/ --cov=my_sdk --cov-report=html
+
+# Запуск конкретного теста
+pytest tests/test_client.py::TestClient::test_client_initialization
+```
+
+### Структура тестов
+
+- `tests/test_base.py` - тесты базового API класса
+- `tests/test_client.py` - тесты клиента SDK
+- `tests/test_exceptions.py` - тесты обработки ошибок
+- `tests/test_network.py` - тесты сетевых возможностей
+
+## 📚 Документация
+
+Полная документация доступна в папке `docs/`:
+
+- `docs/API_REFERENCE.md` - справочник по API
+- `docs/EXAMPLES.md` - примеры использования
+- `docs/GITHUB_ACTIONS_PUBLISH.md` - публикация через GitHub Actions
+- `docs/PUBLISH.md` - руководство по публикации
+
+## 🔧 Разработка
+
+### Установка для разработки
+
+```bash
+# Клонирование репозитория
+git clone <repository_url>
+cd My_SDK_API_LIB_PIP
+
+# Установка в режиме разработки
+pip install -e .
+
+# Установка зависимостей для разработки
+pip install pytest pytest-cov black flake8
+```
+
+### Запуск линтеров
+
+```bash
+# Форматирование кода
+black my_sdk/ tests/
+
+# Проверка стиля кода
+flake8 my_sdk/ tests/
+```
+
+## 📝 Changelog
+
+### v0.1.1 (Текущая версия)
+- Добавлена расширенная обработка ошибок
+- Добавлены сетевые возможности (NetworkManager, NetworkSharing)
+- Добавлены модули тестирования
+- Улучшена документация
+- Добавлена валидация входных данных
+- Добавлен пулинг соединений
+
+### v0.1.0
+- Базовая функциональность SDK
+- Поддержка основных API модулей
+- Аутентификация и авторизация
+
+## 🤝 Вклад в проект
+
+1. Форкните репозиторий
+2. Создайте ветку для новой функции (`git checkout -b feature/amazing-feature`)
+3. Зафиксируйте изменения (`git commit -m 'Add amazing feature'`)
+4. Отправьте в ветку (`git push origin feature/amazing-feature`)
+5. Откройте Pull Request
+
+## 📄 Лицензия
 
 MIT
