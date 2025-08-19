@@ -167,32 +167,49 @@ class Bots(BaseModule):
         """Получение информации о команде
         
         Args:
-            command_id: ID команды
+            command_id (int): ID команды
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если command_id невалиден
+            NotFoundError: Если команда не найдена
         """
+        self._validate_id(command_id, "command_id")
         return self.client.get(f"/get_command/{command_id}")
     
     def edit_command(self, command_id, **kwargs):
         """Редактирование команды
         
         Args:
-            command_id: ID команды
+            command_id (int): ID команды
             **kwargs: Новые параметры команды
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если command_id невалиден или данные пусты
+            NotFoundError: Если команда не найдена
         """
-        return self.client.post(f"/edit_command/{command_id}", kwargs)
+        self._validate_id(command_id, "command_id")
+        if not kwargs:
+            raise ValidationError("Необходимо указать хотя бы один параметр для обновления")
+        return self.client.put(f"/edit_command/{command_id}", json=kwargs)
     
     def download_zip_bot(self, bot_id):
         """Скачивание бота в ZIP-архиве
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если bot_id невалиден
+            NotFoundError: Если бот не найден
         """
+        self._validate_id(bot_id, "bot_id")
         return self.client.get(f"/download_zip_bot/{bot_id}")
