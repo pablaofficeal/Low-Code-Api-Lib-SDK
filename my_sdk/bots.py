@@ -71,62 +71,97 @@ class Bots(BaseModule):
         self._validate_id(bot_id, "bot_id")
         return self.client.get(f"/get_bot_status/{bot_id}")
     
-    def add_command(self, bot_id, **kwargs):
+    def add_command(self, bot_id, command_name, **kwargs):
         """Добавление команды боту
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
+            command_name (str): Название команды
             **kwargs: Параметры команды
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если параметры невалидны
+            NotFoundError: Если бот не найден
         """
-        return self.client.post(f"/add_command/{bot_id}", kwargs)
+        self._validate_id(bot_id, "bot_id")
+        if not isinstance(command_name, str) or not command_name.strip():
+            raise ValidationError("command_name должен быть непустой строкой")
+        
+        data = {'command_name': command_name, **kwargs}
+        return self.client.post(f"/add_command/{bot_id}", json=data)
     
-    def add_handler(self, bot_id, **kwargs):
+    def add_handler(self, bot_id, handler_type, **kwargs):
         """Добавление обработчика боту
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
+            handler_type (str): Тип обработчика
             **kwargs: Параметры обработчика
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если параметры невалидны
+            NotFoundError: Если бот не найден
         """
-        return self.client.post(f"/add_handler/{bot_id}", kwargs)
+        self._validate_id(bot_id, "bot_id")
+        if not isinstance(handler_type, str) or not handler_type.strip():
+            raise ValidationError("handler_type должен быть непустой строкой")
+        
+        data = {'handler_type': handler_type, **kwargs}
+        return self.client.post(f"/add_handler/{bot_id}", json=data)
     
     def delete_command(self, command_id):
         """Удаление команды бота
         
         Args:
-            command_id: ID команды
+            command_id (int): ID команды
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если command_id невалиден
+            NotFoundError: Если команда не найдена
         """
-        return self.client.post(f"/delete_command/{command_id}")
+        self._validate_id(command_id, "command_id")
+        return self.client.delete(f"/delete_command/{command_id}")
     
     def delete_handler(self, handler_id):
         """Удаление обработчика бота
         
         Args:
-            handler_id: ID обработчика
+            handler_id (int): ID обработчика
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если handler_id невалиден
+            NotFoundError: Если обработчик не найден
         """
-        return self.client.post(f"/delete_handler/{handler_id}")
+        self._validate_id(handler_id, "handler_id")
+        return self.client.delete(f"/delete_handler/{handler_id}")
     
     def delete_bot(self, bot_id):
         """Удаление бота
         
         Args:
-            bot_id: ID бота
+            bot_id (int): ID бота
             
         Returns:
             dict: Результат запроса
+            
+        Raises:
+            ValidationError: Если bot_id невалиден
+            NotFoundError: Если бот не найден
         """
-        return self.client.post(f"/delete_bot/{bot_id}")
+        self._validate_id(bot_id, "bot_id")
+        return self.client.delete(f"/delete_bot/{bot_id}")
     
     def get_command(self, command_id):
         """Получение информации о команде
