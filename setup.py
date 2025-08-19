@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="low_code_api_lib_sdk",
-    version="0.1.0",
+    version="0.1.1",
     author="Pavlo Gorosko",
     author_email="pavlogorosko56@gmail.com",
     description="SDK для работы с API Low Code Api Lib",
