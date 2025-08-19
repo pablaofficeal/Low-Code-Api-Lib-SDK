@@ -8,4 +8,14 @@ from .visual_editor import VisualEditor
 from .admin import Admin
 from .system import System
 
-__all__ = ['Client', 'Auth', 'User', 'Bots', 'Templates', 'Media', 'VisualEditor', 'Admin', 'System']
+# Новые модули в версии 0.1.1
+from . import exceptions
+from . import network
+
+__all__ = [
+    'Client', 'Auth', 'User', 'Bots', 'Templates', 'Media', 
+    'VisualEditor', 'Admin', 'System', 'exceptions', 'network'
+]
+
+# Версия SDK
+__version__ = '0.1.1'

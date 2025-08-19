@@ -1,38 +1,77 @@
 import requests
+from .exceptions import (
+    SDKError, AuthenticationError, ValidationError, 
+    ConfigurationError, handle_http_error, validate_token, validate_base_url
+)
+from .network import get_network_manager
 
 class Client:
     def __init__(self, token, base_url="https://soundrush.live/api_dev"):
+        # Валидация входных параметров
+        validate_token(token)
+        validate_base_url(base_url)
+        
         self.token = token
-        self.base_url = base_url
+        self.base_url = base_url.rstrip('/')
+        
+        # Инициализация сетевого менеджера
+        self.network_manager = get_network_manager(self.base_url)
+        
+        # Заголовки по умолчанию
+        self.default_headers = {
+            "Authorization": self.token,
+            "Content-Type": "application/json",
+            "User-Agent": "Low-Code-API-Lib-SDK/0.1.1"
+        }
         
     def _handle_json_response(self, response, method_name=""):
         """Helper method to handle JSON responses and errors consistently"""
+        # Проверка на HTTP ошибки
+        if not response.ok:
+            handle_http_error(response)
+        
         try:
             return response.json()
         except requests.exceptions.JSONDecodeError:
-            print(f"Error: Could not decode JSON response from {method_name}. Status code: {response.status_code}")
-            print(f"Response text: {response.text}")
-            return {"error": "Invalid JSON response", "status_code": response.status_code}
+            # Если JSON не удалось декодировать, но статус успешный
+            if response.status_code == 204:  # No Content
+                return {"success": True}
+            
+            raise SDKError(
+                f"Could not decode JSON response from {method_name}. Status code: {response.status_code}",
+                status_code=response.status_code,
+                response=response
+            )
 
 
-    def get(self, endpoint):
-        response = requests.get(self.base_url+endpoint, headers={"Authorization": self.token})
+    def get(self, endpoint, **kwargs):
+        """Выполнение GET запроса с обработкой ошибок."""
+        headers = {**self.default_headers, **kwargs.pop('headers', {})}
+        response = self.network_manager.get(endpoint, headers=headers, **kwargs)
         return self._handle_json_response(response, "GET")
         
-    def post(self, endpoint, data=None):
-        response = requests.post(self.base_url+endpoint, headers={"Authorization": self.token}, json=data)
+    def post(self, endpoint, data=None, **kwargs):
+        """Выполнение POST запроса с обработкой ошибок."""
+        headers = {**self.default_headers, **kwargs.pop('headers', {})}
+        response = self.network_manager.post(endpoint, json=data, headers=headers, **kwargs)
         return self._handle_json_response(response, "POST")
         
-    def put(self, endpoint, data=None):
-        response = requests.put(self.base_url+endpoint, headers={"Authorization": self.token}, json=data)
+    def put(self, endpoint, data=None, **kwargs):
+        """Выполнение PUT запроса с обработкой ошибок."""
+        headers = {**self.default_headers, **kwargs.pop('headers', {})}
+        response = self.network_manager.put(endpoint, json=data, headers=headers, **kwargs)
         return self._handle_json_response(response, "PUT")
         
-    def delete(self, endpoint):
-        response = requests.delete(self.base_url+endpoint, headers={"Authorization": self.token})
+    def delete(self, endpoint, **kwargs):
+        """Выполнение DELETE запроса с обработкой ошибок."""
+        headers = {**self.default_headers, **kwargs.pop('headers', {})}
+        response = self.network_manager.delete(endpoint, headers=headers, **kwargs)
         return self._handle_json_response(response, "DELETE")
         
-    def patch(self, endpoint, data=None):
-        response = requests.patch(self.base_url+endpoint, headers={"Authorization": self.token}, json=data)
+    def patch(self, endpoint, data=None, **kwargs):
+        """Выполнение PATCH запроса с обработкой ошибок."""
+        headers = {**self.default_headers, **kwargs.pop('headers', {})}
+        response = self.network_manager.request('PATCH', endpoint, json=data, headers=headers, **kwargs)
         return self._handle_json_response(response, "PATCH")
 
 
